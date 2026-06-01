@@ -16,7 +16,17 @@ export const authService = {
         [email, hashedPassword, fullName, tenantId, userType]
       );
 
-      return { success: true, user: result.rows[0] };
+      const row = result.rows[0];
+      const normalizedUser = {
+        id: row.id,
+        email: row.email,
+        fullName: row.full_name,
+        tenantId: row.tenant_id,
+        userType: row.user_type,
+        isActive: row.is_active,
+      };
+
+      return { success: true, user: normalizedUser };
     } catch (error) {
       throw new Error(`Error registering user: ${error.message}`);
     }

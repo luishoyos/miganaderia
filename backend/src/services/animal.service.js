@@ -12,6 +12,21 @@ function parseDate(dateStr) {
   return `${year}-${month}-${day}`;
 }
 
+function mapSexValue(sex) {
+  if (!sex) return null;
+  const normalized = String(sex).trim().toUpperCase();
+  if (normalized === 'H' || normalized === 'HEMBRA') return 'female';
+  if (normalized === 'M' || normalized === 'MACHO') return 'male';
+  return null;
+}
+
+function mapTypeFromSex(sex) {
+  const normalized = String(sex).trim().toUpperCase();
+  if (normalized === 'H' || normalized === 'HEMBRA') return 'vaca';
+  if (normalized === 'M' || normalized === 'MACHO') return 'toro';
+  return 'desconocido';
+}
+
 export const animalService = {
   // Obtener la cantidad de animales activos de una ganadería
   async getAnimalCount(tenantId) {
@@ -136,19 +151,21 @@ export const animalService = {
       const insertedAnimals = [];
       
       for (const animal of animalsList) {
-        const type = animal.sex === 'H' ? 'vaca' : 'toro';
+        const sex = mapSexValue(animal.sex);
+        const type = mapTypeFromSex(animal.sex);
         const birthDate = parseDate(animal.birthDateStr);
         
         const res = await client.query(
           `INSERT INTO animals (
-            tenant_id, name, type, breed, birth_date, status, is_active,
+            tenant_id, name, type, sex, breed, birth_date, status, is_active,
             code, crotal, resena, mother_code, mother_name, father_code, father_name, reg
-          ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15)
+          ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16)
           RETURNING *`,
           [
             tenantId,
             animal.name,
             type,
+            sex,
             'Lidia', // Raza estándar
             birthDate,
             'active',

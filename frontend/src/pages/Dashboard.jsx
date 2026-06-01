@@ -1,11 +1,13 @@
 import { useAuth } from '../contexts/AuthContext';
 import { UploadCloud, FileText, AlertCircle, Loader2, Sparkles } from 'lucide-react';
 import { useState, useEffect, useRef } from 'react';
+import { useNavigate } from 'react-router-dom';
 import api from '../services/api';
 import { toast } from 'react-toastify';
 
 export default function Dashboard() {
-  const { user } = useAuth();
+  const { user, logout } = useAuth();
+  const navigate = useNavigate();
   
   const [censusLoading, setCensusLoading] = useState(true);
   const [hasCensus, setHasCensus] = useState(false);
@@ -210,7 +212,7 @@ export default function Dashboard() {
           </div>
 
           {/* Cards */}
-          <div className="bg-white rounded-lg shadow p-6 hover:shadow-lg transition-shadow cursor-pointer">
+          <div onClick={() => navigate('/censo')} className="bg-white rounded-lg shadow p-6 hover:shadow-lg transition-shadow cursor-pointer">
             <div className="w-12 h-12 bg-primary-100 rounded-lg flex items-center justify-center mb-4">
               <span className="text-2xl">🐂</span>
             </div>

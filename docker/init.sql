@@ -41,9 +41,9 @@ CREATE TABLE IF NOT EXISTS animals (
   tenant_id UUID REFERENCES tenants(id) NOT NULL,
   name VARCHAR(255) NOT NULL,
   type VARCHAR(50), -- 'toro', 'vaca', 'becerro'
+  sex VARCHAR(10), -- 'male', 'female'
   breed VARCHAR(255),
   birth_date DATE,
-  weight DECIMAL(10, 2),
   status VARCHAR(50) DEFAULT 'active', -- 'active', 'retired', 'sold'
   is_active BOOLEAN DEFAULT true,
   code VARCHAR(100),
@@ -93,7 +93,7 @@ BEGIN
   VALUES (
     'isaez@valdelapena.es',
     '$2a$10$ica3NbDji61W73es7OoB.e0zt1/wBwFQD8lU4oy/smUliF2z0/Ita', -- bcrypt hash de ManoloSanchis
-    'Isaez',
+    'Ignacio Sáez',
     tenant_id,
     'user'
   ) ON CONFLICT (email) DO NOTHING;

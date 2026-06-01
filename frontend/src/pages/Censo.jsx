@@ -12,6 +12,18 @@ const formatDate = (dateValue) => {
   return `${day}/${month}/${year}`;
 };
 
+const mapSex = (sex, type) => {
+  if (!sex && !type) return '-';
+  const normalizedSex = sex ? String(sex).trim().toLowerCase() : '';
+  if (normalizedSex === 'female' || normalizedSex === 'hembra') return 'Hembra';
+  if (normalizedSex === 'male' || normalizedSex === 'macho') return 'Macho';
+
+  const normalizedType = type ? String(type).trim().toLowerCase() : '';
+  if (normalizedType === 'vaca') return 'Hembra';
+  if (normalizedType === 'toro') return 'Macho';
+  return sex || type || '-';
+};
+
 export default function Censo() {
   const [animals, setAnimals] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -104,8 +116,7 @@ export default function Censo() {
           <thead className="bg-gray-50">
             <tr>
               <th className="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wide text-gray-500">Nombre</th>
-              <th className="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wide text-gray-500">Tipo</th>
-              <th className="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wide text-gray-500">Raza</th>
+              <th className="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wide text-gray-500">Sexo</th>
               <th className="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wide text-gray-500">Fecha de nacimiento</th>
               <th className="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wide text-gray-500">Estado</th>
               <th className="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wide text-gray-500">Código</th>
@@ -115,19 +126,19 @@ export default function Censo() {
           <tbody className="bg-white divide-y divide-gray-200">
             {loading ? (
               <tr>
-                <td colSpan="7" className="px-6 py-16 text-center text-gray-500">
+                <td colSpan="6" className="px-6 py-16 text-center text-gray-500">
                   Cargando animales...
                 </td>
               </tr>
             ) : animals.length === 0 ? (
               <tr>
-                <td colSpan="7" className="px-6 py-16 text-center text-gray-500">
+                <td colSpan="6" className="px-6 py-16 text-center text-gray-500">
                   No hay animales activos en el censo.
                 </td>
               </tr>
             ) : filteredAnimals.length === 0 ? (
               <tr>
-                <td colSpan="7" className="px-6 py-16 text-center text-gray-500">
+                <td colSpan="6" className="px-6 py-16 text-center text-gray-500">
                   No se encontraron animales con la búsqueda actual.
                 </td>
               </tr>
@@ -135,8 +146,7 @@ export default function Censo() {
               filteredAnimals.map((animal) => (
                 <tr key={animal.id}>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{animal.name}</td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700">{animal.type}</td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700">{animal.breed || '-'}</td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700">{mapSex(animal.sex, animal.type)}</td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700">{formatDate(animal.birth_date)}</td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700">{animal.status}</td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700">{animal.code || '-'}</td>

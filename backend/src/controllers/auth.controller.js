@@ -45,7 +45,20 @@ export const authController = {
       }
 
       const user = await authService.getUserById(userId);
-      return res.status(200).json({ success: true, user });
+
+      // Normalize DB snake_case fields to camelCase for frontend consistency
+      const normalizedUser = user
+        ? {
+            id: user.id,
+            email: user.email,
+            fullName: user.full_name,
+            tenantId: user.tenant_id,
+            userType: user.user_type,
+            isActive: user.is_active,
+          }
+        : null;
+
+      return res.status(200).json({ success: true, user: normalizedUser });
     } catch (error) {
       return res.status(400).json({ error: error.message });
     }
