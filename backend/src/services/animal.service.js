@@ -1,4 +1,5 @@
 import { query, getClient } from '../config/db.js';
+import { CanvasFactory } from "pdf-parse/worker";
 import { PDFParse } from 'pdf-parse';
 
 function parseDate(dateStr) {
