@@ -10,7 +10,7 @@ Sistema moderno para gestión de ganaderías de toros de lidia con arquitectura 
 ✅ UI moderna con Tailwind CSS
 ✅ Notificaciones con React Toastify
 ✅ Docker Compose para desarrollo local
-✅ Preparado para Vercel (Frontend) y Railway/Render (Backend)
+✅ Preparado para Vercel (Frontend + Backend)
 
 ## Stack
 - **Frontend**: React 18 + Vite + Tailwind CSS

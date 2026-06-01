@@ -10,7 +10,7 @@ Sistema moderno de gestión para ganaderías de toros de lidia con arquitectura 
 - **Autenticación**: JWT
 - **Deployment**: 
   - Local: Docker Compose
-  - Cloud: Vercel (Frontend), Railway/Render (Backend)
+  - Cloud: Vercel (Frontend + Backend)
 
 ## 🚀 Inicio Rápido
 
